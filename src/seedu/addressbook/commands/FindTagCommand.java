@@ -13,6 +13,8 @@ import seedu.addressbook.data.tag.Tag;
 /**
  * Finds and lists all persons in address book whose tags contains any of the argument keywords.
  * Keyword matching is case sensitive.
+ *
+ * @throws IllegalValueException if any of the raw values are invalid
  */
 public class FindTagCommand extends Command {
 
