@@ -233,6 +233,41 @@
 || 
 || 2 persons listed!
 || ===================================================
+|| Enter command: || [Command entered:  findtag]
+|| Invalid command format! 
+|| findtag: Finds all persons whose tags contains any of the specified keywords (case-sensitive) and displays them as a list with index numbers.
+|| Parameter: KEYWORD [MORE_KEYWORDS]...
+|| Example: findtag friends owesMoney
+|| ===================================================
+|| Enter command: || [Command entered:  findtag secre]
+|| 
+|| 0 persons listed!
+|| ===================================================
+|| Enter command: || [Command entered:  findtag 23912039120]
+|| 
+|| 0 persons listed!
+|| ===================================================
+|| Enter command: || [Command entered:  findtag Secretive]
+|| 
+|| 0 persons listed!
+|| ===================================================
+|| Enter command: || [Command entered:  findtag secretive]
+|| 	1. Betsy Choo Tags: [secretive]
+|| 
+|| 1 persons listed!
+|| ===================================================
+|| Enter command: || [Command entered:  findtag friends]
+|| 	1. Charlie Dickson Email: charlie.d@nus.edu.sg Address: 333, gamma street Tags: [school][friends]
+|| 	2. Dickson Ee Phone: 444444 Address: 444, delta street Tags: [friends]
+|| 
+|| 2 persons listed!
+|| ===================================================
+|| Enter command: || [Command entered:  findtag school secretive]
+|| 	1. Betsy Choo Tags: [secretive]
+|| 	2. Charlie Dickson Email: charlie.d@nus.edu.sg Address: 333, gamma street Tags: [school][friends]
+|| 
+|| 2 persons listed!
+|| ===================================================
 || Enter command: || [Command entered:  delete]
 || Invalid command format! 
 || delete: Deletes the person identified by the index number used in the last person listing.
