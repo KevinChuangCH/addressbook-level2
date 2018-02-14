@@ -66,6 +66,24 @@ Examples:
 * `find Betsy Tim John`<br>
   Returns Any person having names `Betsy`, `Tim`, or `John`
 
+### Adding tags of a person : `addtag`
+Adds tags of the specified person from the address book. Irreversible.<br>
+Format: `addtag INDEX, TAG...`
+
+> Adds tags to the person at the specified `INDEX`. 
+  The index refers to the index number shown in the most recent listing.
+
+> After every addtag command, a listing should be done before the next addtag command. 
+  The index of the target person will not be the same before and after an addtag command.
+
+Examples: 
+* `list`<br>
+  `addtag 2 newTag`<br>
+  Adds newTag to the 2nd person in the address book.
+* `find Betsy`<br> 
+  `addtag 1 newTag`<br>
+  Adds newTag to the 1st person in the results of the `find` command.
+
 ### Deleting a person : `delete`
 Deletes the specified person from the address book. Irreversible.<br>
 Format: `delete INDEX`
