@@ -28,6 +28,11 @@ public class UpdateTagCommand extends Command {
 
     private final UniqueTagList tagToUpdate;
 
+    /**
+     * Convenience constructor using given input arguments.
+     *
+     * @throws IllegalValueException if any of the input arguments are invalid
+     */
     public UpdateTagCommand(int targetVisibleIndex, Set<String> tags) throws IllegalValueException {
         super(targetVisibleIndex);
         final Set<Tag> tagSet = new HashSet<>();
