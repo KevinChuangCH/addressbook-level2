@@ -233,35 +233,35 @@
 || 
 || 2 persons listed!
 || ===================================================
-|| Enter command: || [Command entered:  updatetag]
+|| Enter command: || [Command entered:  addtag]
 || Invalid command format! 
-|| updatetag: Updates the tag of the person identified by the index number used in the last person listing.
+|| addtag: Adds one or more tags to the person identified by the index number used in the last person listing.
 || Parameters: INDEX, TAG...
-|| Example: updatetag 1, friends
+|| Example: addtag 1, friends
 || ===================================================
-|| Enter command: || [Command entered:  updatetag 1 2, testTag]
+|| Enter command: || [Command entered:  addtag 1 2, testTag]
 || Invalid command format! 
-|| updatetag: Updates the tag of the person identified by the index number used in the last person listing.
+|| addtag: Adds one or more tags to the person identified by the index number used in the last person listing.
 || Parameters: INDEX, TAG...
-|| Example: updatetag 1, friends
+|| Example: addtag 1, friends
 || ===================================================
-|| Enter command: || [Command entered:  updatetag should be only one number, testTag]
+|| Enter command: || [Command entered:  addtag should be only one number, testTag]
 || Invalid command format! 
-|| updatetag: Updates the tag of the person identified by the index number used in the last person listing.
+|| addtag: Adds one or more tags to the person identified by the index number used in the last person listing.
 || Parameters: INDEX, TAG...
-|| Example: updatetag 1, friends
+|| Example: addtag 1, friends
 || ===================================================
-|| Enter command: || [Command entered:  updatetag -1, testTag]
+|| Enter command: || [Command entered:  addtag -1, testTag]
 || The person index provided is invalid
 || ===================================================
-|| Enter command: || [Command entered:  updatetag 0, testTag]
+|| Enter command: || [Command entered:  addtag 0, testTag]
 || The person index provided is invalid
 || ===================================================
-|| Enter command: || [Command entered:  updatetag 3, testTag]
+|| Enter command: || [Command entered:  addtag 3, testTag]
 || The person index provided is invalid
 || ===================================================
-|| Enter command: || [Command entered:  updatetag 1, singleTag]
-|| Updated Person: Betsy Choo Phone: (private) 222222 Email: (private) benchoo@nus.edu.sg Address: (private) 222, beta street Tags: [secretive][singleTag]
+|| Enter command: || [Command entered:  addtag 1, singleTag]
+|| Add tag to: Betsy Choo Phone: (private) 222222 Email: (private) benchoo@nus.edu.sg Address: (private) 222, beta street Tags: [secretive][singleTag]
 || ===================================================
 || Enter command: || [Command entered:  list]
 || 	1. Adam Brown Phone: 111111 Email: adam@gmail.com Address: 111, alpha street Tags: 
@@ -272,8 +272,8 @@
 || 
 || 5 persons listed!
 || ===================================================
-|| Enter command: || [Command entered:  updatetag 1, multipleTag1 multipleTag2 multipleTag3]
-|| Updated Person: Adam Brown Phone: 111111 Email: adam@gmail.com Address: 111, alpha street Tags: [multipleTag2][multipleTag3][multipleTag1]
+|| Enter command: || [Command entered:  addtag 1, multipleTag1 multipleTag2 multipleTag3]
+|| Add tag to: Adam Brown Phone: 111111 Email: adam@gmail.com Address: 111, alpha street Tags: [multipleTag2][multipleTag3][multipleTag1]
 || ===================================================
 || Enter command: || [Command entered:  list]
 || 	1. Charlie Dickson Email: charlie.d@nus.edu.sg Address: 333, gamma street Tags: [school][friends]
