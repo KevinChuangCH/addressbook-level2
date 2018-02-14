@@ -63,23 +63,8 @@ public class UpdateTagCommandTest {
     }
 
     @Test
-    public void execute_emptyAddressBook_returnsPersonNotFoundMessage() {
-        assertUpdateFailsDueToNoSuchPerson(1, singleTestTags, emptyAddressBook, listWithEveryone);
-    }
-
-    @Test
     public void execute_noPersonDisplayed_returnsInvalidIndexMessage() {
         assertUpdateFailsDueToInvalidIndex(1, singleTestTags, addressBook, emptyDisplayList);
-    }
-
-    @Test
-    public void execute_targetPersonNotInAddressBook_returnsPersonNotFoundMessage()
-            throws IllegalValueException {
-        Person notInAddressBookPerson = new Person(new Name("Not In Book"), new Phone("63331444", false),
-                new Email("notin@book.com", false), new Address("156D Grant Road", false), new UniqueTagList());
-        List<ReadOnlyPerson> listWithPersonNotInAddressBook = TestUtil.createList(notInAddressBookPerson);
-
-        assertUpdateFailsDueToNoSuchPerson(1, singleTestTags, addressBook, listWithPersonNotInAddressBook);
     }
 
     @Test
@@ -145,19 +130,6 @@ public class UpdateTagCommandTest {
         String expectedMessage = Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 
         Command command = createUpdateTagCommand(invalidVisibleIndex, tagSet, addressBook, displayList);
-        assertCommandBehaviour(command, expectedMessage, addressBook, addressBook);
-    }
-
-    /**
-     * Asserts that the person at the specified index cannot be updated, because that person
-     * is not in the address book.
-     */
-    private void assertUpdateFailsDueToNoSuchPerson(int visibleIndex, Set<String> tagSet,
-                                                    AddressBook addressBook, List<ReadOnlyPerson> displayList) {
-
-        String expectedMessage = Messages.MESSAGE_PERSON_NOT_IN_ADDRESSBOOK;
-
-        Command command = createUpdateTagCommand(visibleIndex, tagSet, addressBook, displayList);
         assertCommandBehaviour(command, expectedMessage, addressBook, addressBook);
     }
 
