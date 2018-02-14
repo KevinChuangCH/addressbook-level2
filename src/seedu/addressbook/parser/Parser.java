@@ -31,6 +31,9 @@ public class Parser {
                     + " (?<isAddressPrivate>p?)a/(?<address>[^/]+)"
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
+    public static final Pattern UPDATE_TAG_ARGS_FORMAT =
+            Pattern.compile("(?<targetIndex>\\d+)" + "," + " (?<tags>[\\w]+)");
+
 
     /**
      * Signals that the user input could not be parsed.
@@ -159,13 +162,23 @@ public class Parser {
      * @return the prepared command
      */
     private Command prepareUpdate(String args) {
+        final Matcher matcher = UPDATE_TAG_ARGS_FORMAT.matcher(args.trim());
+        // Validate arg string format
+        boolean test = matcher.matches();
+        if (!matcher.matches()) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UpdateTagCommand.MESSAGE_USAGE));
+        }
         try {
-            final int targetIndex = parseArgsAsDisplayedIndex(args);
-            return new UpdateTagCommand(targetIndex);
+            final int targetIndex = parseArgsAsDisplayedIndex(matcher.group("targetIndex"));
+            final Set<String> tagSet = getTagsFromArgs(matcher.group("tags"));
+            return new UpdateTagCommand(targetIndex, tagSet);
         } catch (ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateTagCommand.MESSAGE_USAGE));
         } catch (NumberFormatException nfe) {
             return new IncorrectCommand(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        } catch (IllegalValueException ive) {
+            return new IncorrectCommand(ive.getMessage());
         }
     }
 
