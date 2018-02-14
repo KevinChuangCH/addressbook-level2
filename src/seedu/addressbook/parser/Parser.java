@@ -184,7 +184,8 @@ public class Parser {
             final Set<String> tagSet = getUpdatingTagsFromArgs(matcher.group("tags"));
             return new UpdateTagCommand(targetIndex, tagSet);
         } catch (ParseException pe) {
-            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateTagCommand.MESSAGE_USAGE));
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    UpdateTagCommand.MESSAGE_USAGE));
         } catch (NumberFormatException nfe) {
             return new IncorrectCommand(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } catch (IllegalValueException ive) {
