@@ -107,27 +107,27 @@
   find Charlie Betsy
 
 ##########################################################
-# test update persons tags command
+# test add tags to person command
 ##########################################################
 
 # last active view: [1] betsy [2] charlie
 
   # should catch invalid args format
-  updatetag
-  updatetag 1 2, testTag
-  updatetag should be only one number, testTag
+  addtag
+  addtag 1 2, testTag
+  addtag should be only one number, testTag
 
   # should catch invalid index
-  updatetag -1, testTag
-  updatetag 0, testTag
-  updatetag 3, testTag
+  addtag -1, testTag
+  addtag 0, testTag
+  addtag 3, testTag
 
-  # update person tag successfully (Single tag update)
-  updatetag 1, singleTag
+  # add single tag to person successfully
+  addtag 1, singleTag
   list
 
-  # update person tag successfully (Multiple tags update)
-  updatetag 1, multipleTag1 multipleTag2 multipleTag3
+  # add multiple tags to person successfully
+  addtag 1, multipleTag1 multipleTag2 multipleTag3
   list
 
 
