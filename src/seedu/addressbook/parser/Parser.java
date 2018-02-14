@@ -20,7 +20,7 @@ import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
 import seedu.addressbook.commands.IncorrectCommand;
 import seedu.addressbook.commands.ListCommand;
-import seedu.addressbook.commands.UpdateTagCommand;
+import seedu.addressbook.commands.AddTagCommand;
 import seedu.addressbook.commands.ViewAllCommand;
 import seedu.addressbook.commands.ViewCommand;
 import seedu.addressbook.data.exception.IllegalValueException;
@@ -42,7 +42,7 @@ public class Parser {
                     + " (?<isAddressPrivate>p?)a/(?<address>[^/]+)"
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
-    public static final Pattern UPDATE_TAG_ARGS_FORMAT =
+    public static final Pattern ADD_TAG_ARGS_FORMAT =
             Pattern.compile("(?<targetIndex>\\p{Punct}*\\d+)" + "," // a digit and tags separated by a comma and whitespace
                     + " (?<tags>[\\w ]+)"); // one or more tags separated by whitespace
 
@@ -83,8 +83,8 @@ public class Parser {
         case AddCommand.COMMAND_WORD:
             return prepareAdd(arguments);
 
-        case UpdateTagCommand.COMMAND_WORD:
-            return prepareUpdate(arguments);
+        case AddTagCommand.COMMAND_WORD:
+            return prepareAddTag(arguments);
 
         case DeleteCommand.COMMAND_WORD:
             return prepareDelete(arguments);
@@ -166,7 +166,7 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
 
-    private static Set<String> getUpdatingTagsFromArgs(String tagArguments) throws IllegalValueException {
+    private static Set<String> getAddingTagsFromArgs(String tagArguments) throws IllegalValueException {
         // no tags
         if (tagArguments.isEmpty()) {
             return Collections.emptySet();
@@ -177,25 +177,25 @@ public class Parser {
     }
 
     /**
-     * Parses arguments in the context of the update person command.
+     * Parses arguments in the context of the addtag command.
      *
      * @param args full command args string
      * @return the prepared command
      */
-    private Command prepareUpdate(String args) {
-        final Matcher matcher = UPDATE_TAG_ARGS_FORMAT.matcher(args.trim());
+    private Command prepareAddTag(String args) {
+        final Matcher matcher = ADD_TAG_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    UpdateTagCommand.MESSAGE_USAGE));
+                    AddTagCommand.MESSAGE_USAGE));
         }
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(matcher.group("targetIndex"));
-            final Set<String> tagSet = getUpdatingTagsFromArgs(matcher.group("tags"));
-            return new UpdateTagCommand(targetIndex, tagSet);
+            final Set<String> tagSet = getAddingTagsFromArgs(matcher.group("tags"));
+            return new AddTagCommand(targetIndex, tagSet);
         } catch (ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    UpdateTagCommand.MESSAGE_USAGE));
+                    AddTagCommand.MESSAGE_USAGE));
         } catch (NumberFormatException nfe) {
             return new IncorrectCommand(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } catch (IllegalValueException ive) {

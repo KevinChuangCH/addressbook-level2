@@ -24,7 +24,7 @@ import seedu.addressbook.data.tag.UniqueTagList;
 import seedu.addressbook.ui.TextUi;
 import seedu.addressbook.util.TestUtil;
 
-public class UpdateTagCommandTest {
+public class AddTagCommandTest {
 
     private AddressBook emptyAddressBook;
     private AddressBook addressBook;
@@ -64,43 +64,43 @@ public class UpdateTagCommandTest {
 
     @Test
     public void execute_noPersonDisplayed_returnsInvalidIndexMessage() {
-        assertUpdateFailsDueToInvalidIndex(1, singleTestTags, addressBook, emptyDisplayList);
+        assertAddFailsDueToInvalidIndex(1, singleTestTags, addressBook, emptyDisplayList);
     }
 
     @Test
     public void execute_invalidIndex_returnsInvalidIndexMessage() {
-        assertUpdateFailsDueToInvalidIndex(0, singleTestTags, addressBook, listWithEveryone);
-        assertUpdateFailsDueToInvalidIndex(-1, singleTestTags, addressBook, listWithEveryone);
-        assertUpdateFailsDueToInvalidIndex(listWithEveryone.size() + 1, singleTestTags, addressBook, listWithEveryone);
+        assertAddFailsDueToInvalidIndex(0, singleTestTags, addressBook, listWithEveryone);
+        assertAddFailsDueToInvalidIndex(-1, singleTestTags, addressBook, listWithEveryone);
+        assertAddFailsDueToInvalidIndex(listWithEveryone.size() + 1, singleTestTags, addressBook, listWithEveryone);
     }
 
     @Test
-    public void execute_validIndex_singleTag_personIsUpdated() throws PersonNotFoundException {
-        assertUpdateSuccessful(1, singleTestTags, addressBook, listWithSurnameDoe);
-        assertUpdateSuccessful(listWithSurnameDoe.size(), singleTestTags, addressBook, listWithSurnameDoe);
+    public void execute_validIndex_singleTagAdded() throws PersonNotFoundException {
+        assertAddSuccessful(1, singleTestTags, addressBook, listWithSurnameDoe);
+        assertAddSuccessful(listWithSurnameDoe.size(), singleTestTags, addressBook, listWithSurnameDoe);
 
         int middleIndex = (listWithSurnameDoe.size() / 2) + 1;
-        assertUpdateSuccessful(middleIndex, singleTestTags ,addressBook, listWithSurnameDoe);
+        assertAddSuccessful(middleIndex, singleTestTags ,addressBook, listWithSurnameDoe);
     }
 
     @Test
-    public void execute_validIndex_multipleTags_personIsUpdated() throws PersonNotFoundException {
-        assertUpdateSuccessful(1, multipleTestTags, addressBook, listWithSurnameDoe);
-        assertUpdateSuccessful(listWithSurnameDoe.size(), multipleTestTags, addressBook, listWithSurnameDoe);
+    public void execute_validIndex_multipleTagsAdded() throws PersonNotFoundException {
+        assertAddSuccessful(1, multipleTestTags, addressBook, listWithSurnameDoe);
+        assertAddSuccessful(listWithSurnameDoe.size(), multipleTestTags, addressBook, listWithSurnameDoe);
 
         int middleIndex = (listWithSurnameDoe.size() / 2) + 1;
-        assertUpdateSuccessful(middleIndex, multipleTestTags ,addressBook, listWithSurnameDoe);
+        assertAddSuccessful(middleIndex, multipleTestTags ,addressBook, listWithSurnameDoe);
     }
 
     /**
-     * Creates a new update command.
+     * Creates a new addtag command.
      *
-     * @param targetVisibleIndex of the person that we want to update
+     * @param targetVisibleIndex of the person that we want to add tag to
      */
-    private Command createUpdateTagCommand(int targetVisibleIndex, Set<String> tagsToUpdate,
+    private Command createAddTagCommand(int targetVisibleIndex, Set<String> tagsToAdd,
                                                     AddressBook addressBook, List<ReadOnlyPerson> displayList) {
         try {
-            UpdateTagCommand command = new UpdateTagCommand(targetVisibleIndex, tagsToUpdate);
+            AddTagCommand command = new AddTagCommand(targetVisibleIndex, tagsToAdd);
             command.setData(addressBook, displayList);
 
             return command;
@@ -112,10 +112,10 @@ public class UpdateTagCommandTest {
     /**
      * Executes the command, and checks that the execution was what we had expected.
      */
-    private void assertCommandBehaviour(Command updateTagCommand, String expectedMessage,
+    private void assertCommandBehaviour(Command addTagCommand, String expectedMessage,
                                         AddressBook expectedAddressBook, AddressBook actualAddressBook) {
 
-        CommandResult result = updateTagCommand.execute();
+        CommandResult result = addTagCommand.execute();
 
         assertEquals(expectedMessage, result.feedbackToUser);
         assertEquals(expectedAddressBook.getAllPersons(), actualAddressBook.getAllPersons());
@@ -124,35 +124,35 @@ public class UpdateTagCommandTest {
     /**
      * Asserts that the index is not valid for the given display list.
      */
-    private void assertUpdateFailsDueToInvalidIndex(int invalidVisibleIndex, Set<String> tagSet,
+    private void assertAddFailsDueToInvalidIndex(int invalidVisibleIndex, Set<String> tagSet,
                                                       AddressBook addressBook, List<ReadOnlyPerson> displayList) {
 
         String expectedMessage = Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 
-        Command command = createUpdateTagCommand(invalidVisibleIndex, tagSet, addressBook, displayList);
+        Command command = createAddTagCommand(invalidVisibleIndex, tagSet, addressBook, displayList);
         assertCommandBehaviour(command, expectedMessage, addressBook, addressBook);
     }
 
     /**
-     * Asserts that the person at the specified index can be successfully updated.
+     * Asserts that adding tags to the person at the specified index can be successfully.
      *
      * The addressBook passed in will not be modified (no side effects).
      *
      * @throws PersonNotFoundException if the selected person is not in the address book
      */
-    private void assertUpdateSuccessful(int targetVisibleIndex, Set<String> tagSet, AddressBook addressBook,
+    private void assertAddSuccessful(int targetVisibleIndex, Set<String> tagSet, AddressBook addressBook,
                                           List<ReadOnlyPerson> displayList) throws PersonNotFoundException {
 
         ReadOnlyPerson targetPerson = displayList.get(targetVisibleIndex - TextUi.DISPLAYED_INDEX_OFFSET);
 
         try{
-            Set<Tag> tagsToAdd = new HashSet<>();
+            Set<Tag> newTags = new HashSet<>();
             for (String tagName : tagSet) {
-                tagsToAdd.add(new Tag(tagName));
+                newTags.add(new Tag(tagName));
             }
-            UniqueTagList tagToUpdate = new UniqueTagList(tagsToAdd);
+            UniqueTagList tagToAdd = new UniqueTagList(newTags);
             UniqueTagList updatedTagList = targetPerson.getTags();
-            updatedTagList.mergeFrom(tagToUpdate);
+            updatedTagList.mergeFrom(tagToAdd);
             final Person updatedPerson = new Person(
                     targetPerson.getName(),
                     targetPerson.getPhone(),
@@ -164,11 +164,11 @@ public class UpdateTagCommandTest {
             AddressBook expectedAddressBook = TestUtil.clone(addressBook);
             expectedAddressBook.removePerson(targetPerson);
             expectedAddressBook.addPerson(updatedPerson);
-            String expectedMessage = String.format(UpdateTagCommand.MESSAGE_UPDATE_TAG_SUCCESS, updatedPerson);
+            String expectedMessage = String.format(AddTagCommand.MESSAGE_ADD_TAG_SUCCESS, updatedPerson);
 
             AddressBook actualAddressBook = TestUtil.clone(addressBook);
 
-            Command command = createUpdateTagCommand(targetVisibleIndex, tagSet, actualAddressBook, displayList);
+            Command command = createAddTagCommand(targetVisibleIndex, tagSet, actualAddressBook, displayList);
             assertCommandBehaviour(command, expectedMessage, expectedAddressBook, actualAddressBook);
         } catch (IllegalValueException ive) {
             return;

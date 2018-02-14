@@ -12,34 +12,34 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Updates a person tag using it's last displayed index from the address book.
+ * Adds tags to a person  using it's last displayed index from the address book.
  */
-public class UpdateTagCommand extends Command {
+public class AddTagCommand extends Command {
 
-    public static final String COMMAND_WORD = "updatetag";
+    public static final String COMMAND_WORD = "addtag";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Updates the tag of the person identified by the index number used in the last person listing.\n"
+            + ": Adds one or more tags to the person identified by the index number used in the last person listing.\n"
             + "Parameters: INDEX, TAG...\n"
             + "Example: " + COMMAND_WORD + " 1, friends";
 
-    public static final String MESSAGE_UPDATE_TAG_SUCCESS = "Updated Person: %1$s";
+    public static final String MESSAGE_ADD_TAG_SUCCESS = "Add tag to: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
 
-    private final UniqueTagList tagToUpdate;
+    private final UniqueTagList tagToAdd;
 
     /**
      * Convenience constructor using given input arguments.
      *
      * @throws IllegalValueException if any of the input arguments are invalid
      */
-    public UpdateTagCommand(int targetVisibleIndex, Set<String> tags) throws IllegalValueException {
+    public AddTagCommand(int targetVisibleIndex, Set<String> tags) throws IllegalValueException {
         super(targetVisibleIndex);
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
             tagSet.add(new Tag(tagName));
         }
-        tagToUpdate = new UniqueTagList(tagSet);
+        tagToAdd = new UniqueTagList(tagSet);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UpdateTagCommand extends Command {
         try {
             final ReadOnlyPerson target = getTargetPerson();
             UniqueTagList updatedTagList = target.getTags();
-            updatedTagList.mergeFrom(tagToUpdate);
+            updatedTagList.mergeFrom(tagToAdd);
             final Person updatedPerson = new Person(
                     target.getName(),
                     target.getPhone(),
@@ -57,7 +57,7 @@ public class UpdateTagCommand extends Command {
             );
             addressBook.removePerson(target);
             addressBook.addPerson(updatedPerson);
-            return new CommandResult(String.format(MESSAGE_UPDATE_TAG_SUCCESS, updatedPerson));
+            return new CommandResult(String.format(MESSAGE_ADD_TAG_SUCCESS, updatedPerson));
 
         } catch (IndexOutOfBoundsException ie) {
             return new CommandResult(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
