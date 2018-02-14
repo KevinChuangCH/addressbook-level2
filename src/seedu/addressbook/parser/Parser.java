@@ -32,7 +32,8 @@ public class Parser {
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
     public static final Pattern UPDATE_TAG_ARGS_FORMAT =
-            Pattern.compile("(?<targetIndex>\\d+)" + "," + " (?<tags>[\\w]+)");
+            Pattern.compile("(?<targetIndex>\\d+)" + "," // a digit and tags separated by a comma and whitespace
+                    + " (?<tags>[\\w ]+)"); // one or more tags separated by whitespace
 
 
     /**
@@ -154,6 +155,15 @@ public class Parser {
         return new HashSet<>(tagStrings);
     }
 
+    private static Set<String> getUpdatingTagsFromArgs(String tagArguments) throws IllegalValueException {
+        // no tags
+        if (tagArguments.isEmpty()) {
+            return Collections.emptySet();
+        }
+        // replace first delimiter prefix, then split
+        final Collection<String> tagStrings = Arrays.asList(tagArguments.split(" "));
+        return new HashSet<>(tagStrings);
+    }
 
     /**
      * Parses arguments in the context of the update person command.
@@ -171,7 +181,7 @@ public class Parser {
         }
         try {
             final int targetIndex = parseArgsAsDisplayedIndex(matcher.group("targetIndex"));
-            final Set<String> tagSet = getTagsFromArgs(matcher.group("tags"));
+            final Set<String> tagSet = getUpdatingTagsFromArgs(matcher.group("tags"));
             return new UpdateTagCommand(targetIndex, tagSet);
         } catch (ParseException pe) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UpdateTagCommand.MESSAGE_USAGE));
