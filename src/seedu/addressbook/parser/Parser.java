@@ -43,7 +43,7 @@ public class Parser {
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
     public static final Pattern UPDATE_TAG_ARGS_FORMAT =
-            Pattern.compile("(?<targetIndex>\\d+)" + "," // a digit and tags separated by a comma and whitespace
+            Pattern.compile("(?<targetIndex>\\p{Punct}*\\d+)" + "," // a digit and tags separated by a comma and whitespace
                     + " (?<tags>[\\w ]+)"); // one or more tags separated by whitespace
 
 
