@@ -185,7 +185,6 @@ public class Parser {
     private Command prepareUpdate(String args) {
         final Matcher matcher = UPDATE_TAG_ARGS_FORMAT.matcher(args.trim());
         // Validate arg string format
-        boolean test = matcher.matches();
         if (!matcher.matches()) {
             return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     UpdateTagCommand.MESSAGE_USAGE));
